@@ -21,7 +21,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.foundation.layout.padding
 
-
 // 画面のルート定義
 sealed class Screen(val route: String, val label: String) {
     object Home : Screen("home", "ホーム")

@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.example.fitnessui
+package com.example.project_design
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 
 // ========== データクラス ==========
 
@@ -44,7 +45,7 @@ data class RecommendedWorkout(
 // ========== メインの画面 ==========
 
 @Composable
-fun FitnessScreen() {
+fun HomeScreen(navController: NavHostController) {
     var selectedTab by remember { mutableStateOf(0) }
     val tabs = listOf("今日", "概要")
 
@@ -75,12 +76,6 @@ fun FitnessScreen() {
                     .fillMaxWidth()
                     .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 8.dp)
             ) {
-                Text(
-                    text = "フィットネス",
-                    style = MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.Bold
-                    )
-                )
                 Spacer(modifier = Modifier.height(8.dp))
                 TabRow(
                     selectedTabIndex = selectedTab,
