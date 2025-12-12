@@ -5,8 +5,8 @@ package com.example.project_design
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -17,6 +17,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 
 // ========== データクラス ==========
 
@@ -39,7 +42,6 @@ data class RecommendedWorkout(
     val title: String,
     val duration: String,
     val intensity: String
-    // 画像URLを使うならここに imageUrl: String などを追加
 )
 
 // ========== メインの画面 ==========
@@ -49,24 +51,32 @@ fun HomeScreen(navController: NavHostController) {
     var selectedTab by remember { mutableStateOf(0) }
     val tabs = listOf("今日", "概要")
 
-    // 仮のダミーデータ（v0の内容に合わせてある）
-    val todayStats = listOf(
-        TodayStat("歩数", "8,432", "+12%"),
-        TodayStat("カロリー", "420", "+8%"),
-        TodayStat("心拍数", "72 bpm", status = "正常"),
-        TodayStat("距離", "5.2 km", "+15%")
-    )
+    // ---- ここで ViewModel から DB の状態を取得する ----
+    val homeViewModel: HomeViewModel = viewModel()
+    val uiState by homeViewModel.uiState.collectAsState()
 
+    // todayStats は DB から。まだ何も入っていないときだけダミー表示にする
+    val todayStats: List<TodayStat> =
+        if (uiState.todayStats.isNotEmpty()) {
+            uiState.todayStats
+        } else {
+            listOf(
+                TodayStat("歩数", "8,432", "+12%"),
+                TodayStat("カロリー", "420", "+8%"),
+                TodayStat("心拍数", "72 bpm", status = "正常"),
+                TodayStat("距離", "5.2 km", "+15%")
+            )
+        }
+
+    // ↓ここはまだDBを作っていないので従来通りダミーのまま
     val activities = listOf(
-        Activity("ランニング", "今日, 2:30 PM", "32 分", "5.2 km", "245 cal"),
-        Activity("サイクリング", "今日, 9:15 AM", "45 分", "12.8 km", "320 cal"),
-        Activity("ヨガ", "昨日, 6:00 PM", "60 分", null, "180 cal")
+        Activity("富樫の里コース", "今日, 2:30 PM", "32 分", "5.2 km", "245 cal"),
+        Activity("白山やまなみコース", "昨日, 9:15 AM", "45 分", "8.6 km", "310 cal")
     )
 
     val recommendedWorkouts = listOf(
-        RecommendedWorkout("朝のランニング", "30 分", "中程度"),
-        RecommendedWorkout("HIITトレーニング", "20 分", "高強度"),
-        RecommendedWorkout("夕方のヨガ", "45 分", "簡単")
+        RecommendedWorkout("富樫の里コースウォーキング", "30 分", "中程度"),
+        RecommendedWorkout("白山やまなみコースハイキング", "45 分", "やや高強度")
     )
 
     Scaffold(
@@ -77,6 +87,15 @@ fun HomeScreen(navController: NavHostController) {
                     .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 8.dp)
             ) {
                 Spacer(modifier = Modifier.height(8.dp))
+
+                // 開発用：1回押すとDBにダミーデータを入れられる（確認が済んだら消してOK）
+                /*
+                Button(onClick = { homeViewModel.insertDemoData() }) {
+                    Text("ダミーデータ投入")
+                }
+                Spacer(Modifier.height(8.dp))
+                */
+
                 TabRow(
                     selectedTabIndex = selectedTab,
                     containerColor = MaterialTheme.colorScheme.background
@@ -131,7 +150,6 @@ fun TodayTabContent(
             )
             Spacer(modifier = Modifier.height(12.dp))
 
-            // 2列グリッド風（Row×2）
             Column(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
@@ -306,7 +324,6 @@ fun RecommendedWorkoutCard(workout: RecommendedWorkout) {
                 .padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // 画像の代わりのプレースホルダー
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -357,7 +374,7 @@ fun RecommendedWorkoutCard(workout: RecommendedWorkout) {
     }
 }
 
-// ========== 「概要」タブ（とりあえずプレースホルダー） ==========
+// ========== 「概要」タブ ==========
 
 @Composable
 fun SummaryTabContent(

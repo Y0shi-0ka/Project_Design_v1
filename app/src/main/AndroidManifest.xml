@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!-- ★ ネット必要なので一応付けておく -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,7 +20,7 @@
         <!-- ★ ここを追加：Maps API キー -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="" />
+            android:value="${MAPS_API_KEY}" />
         <!-- ↑ Google Cloud Console で発行したキーを入れる -->
 
         <activity

@@ -18,7 +18,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 
+// どのKMLを開くか識別するためのidを追加
 data class WalkCourse(
+    val id: String,          // "togashi", "hakusan" など
     val title: String,
     val distance: String,
     val time: String,
@@ -29,9 +31,20 @@ data class WalkCourse(
 fun RouteListScreen(nav: NavHostController) {
 
     val list = listOf(
-        WalkCourse("桜並木コース", "3.5km", "約45分", "https://picsum.photos/300/200?1"),
-        WalkCourse("河川敷コース", "5.2km", "約1時間15分", "https://picsum.photos/300/200?2"),
-        WalkCourse("公園巡りコース", "2.8km", "約35分", "https://picsum.photos/300/200?3")
+        WalkCourse(
+            id = "togashi",
+            title = "富樫の里コース",
+            distance = "約4.3km",
+            time = "約60分",
+            imageUrl = "https://picsum.photos/300/200?10"
+        ),
+        WalkCourse(
+            id = "hakusan",
+            title = "白山やまなみコース",
+            distance = "約3.8km",
+            time = "約50分",
+            imageUrl = "https://picsum.photos/300/200?11"
+        )
     )
 
     Column(
@@ -49,15 +62,25 @@ fun RouteListScreen(nav: NavHostController) {
 
         Spacer(Modifier.height(16.dp))
 
-        list.forEach {
-            WalkCourseItem(it, nav)
+        list.forEach { course ->
+            WalkCourseItem(
+                c = course,
+                onClick = {
+                    // どのコースかをパラメータで渡す
+                    nav.navigate(Screen.Map.route(course.id))
+                }
+            )
             Spacer(Modifier.height(12.dp))
         }
     }
 }
 
+
 @Composable
-fun WalkCourseItem(c: WalkCourse, nav: NavHostController) {
+fun WalkCourseItem(
+    c: WalkCourse,
+    onClick: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -74,9 +97,7 @@ fun WalkCourseItem(c: WalkCourse, nav: NavHostController) {
             Spacer(Modifier.height(6.dp))
 
             Button(
-                onClick = {
-                    nav.navigate(Screen.Map.route)
-                },
+                onClick = onClick,
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White)
             ) {
                 Text("このルートを選択", color = Color.Black)
