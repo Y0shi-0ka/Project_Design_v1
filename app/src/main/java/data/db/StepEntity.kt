@@ -5,8 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "steps")
 data class StepEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0L,
-    val date: String,          // 例: "2025-12-05"
+    @PrimaryKey val date: String,
     val steps: Int,
     val distanceKm: Double
 )
