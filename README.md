@@ -136,3 +136,13 @@ Project_Design_v1/
 ├── gradle.properties
 ├── gradlew
 └── gradlew.bat
+```
+
+---
+
+## 実際の動作画面
+
+
+https://github.com/user-attachments/assets/95ad42fc-d47b-425a-bb14-556219cb24c8
+
+
