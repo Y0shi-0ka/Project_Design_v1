@@ -76,7 +76,7 @@ DataStore を利用し、ユーザー設定などの軽量データを保持で�
 
 このプロジェクトでは、以下の技術を使用しています。  
 リポジトリ内の Gradle 設定から、Kotlin 製の Android アプリであり、  
-Jetpack Compose ベースで Google Maps・位置情報・Navigation・Room・DataStore を導入していることが確認できます。:contentReference[oaicite:1]{index=1}
+Jetpack Compose ベースで Google Maps・位置情報・Navigation・Room・DataStore を導入していることが確認できます。
 
 - **Language**
   - Kotlin
@@ -117,7 +117,7 @@ Jetpack Compose ベースで Google Maps・位置情報・Navigation・Room・Da
 - compileSdk 36
 - targetSdk 36
 
-これらの設定は `app/build.gradle.kts` に記載されています。:contentReference[oaicite:2]{index=2}
+これらの設定は `app/build.gradle.kts` に記載されています。
 
 ---
 
@@ -125,7 +125,7 @@ Jetpack Compose ベースで Google Maps・位置情報・Navigation・Room・Da
 
 リポジトリは Android アプリとして一般的な構成になっており、  
 `app` モジュールを中心にソースコードやリソースを管理しています。  
-ルートには `build.gradle.kts`、`settings.gradle.kts`、`gradle` ディレクトリが存在します。:contentReference[oaicite:3]{index=3}
+ルートには `build.gradle.kts`、`settings.gradle.kts`、`gradle` ディレクトリが存在します。
 
 ```text
 Project_Design_v1/
